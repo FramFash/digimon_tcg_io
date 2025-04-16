@@ -1,15 +1,17 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
   
+  let name: string = '';
   let email: string = '';
   let password: string = '';
+  let phone: string = '';
   let error: string = '';
 
-  async function loginRequest(event: Event) {
-    console.log("Requesting authorization")
+  async function registerRequest(event: Event) {
+    console.log("Requesting Registration")
     event.preventDefault();
 
-    if (!email || !password) {
+    if (!email || !password || !name) {
       error = "Please fill in all fields";
       return;
     }
@@ -21,20 +23,20 @@
       });
 
       const body = JSON.stringify({
+        name: name.trim(),
         email: email.trim(),
-        password: password
+        password: password,
+        phone: phone,
       });
 
       console.log("Request body", body);
       
-      const response = await fetch('http://localhost:8080/api/auth/login', {
+      const response = await fetch('http://localhost:8080/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        credentials: 'include', 
         body: body,
-        mode: 'cors'
       });
 
       if (!response.ok) {
@@ -47,8 +49,10 @@
       error = err instanceof Error? err.message : "Login failed";
       console.error('Login error:', {
         error: err,
+        name: name,
         email: email,
-        password: password
+        password: password,
+        phone: phone
       });
     } 
   }
@@ -56,15 +60,18 @@
 </script>
 
 <div class="main-container">
-  <h1 class="Title">Login</h1>
-  <form class="login-form" on:submit={loginRequest}>
+  <h1 class="Title">Signin</h1>
+  <form class="register-form" on:submit={registerRequest}>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" placeholder="Manzano" bind:value={name} required>
     <label for="email">Email:</label>
-    <input type="text" id="email" name="email" placeholder="Manzano" bind:value={email} required>
+    <input type="text" id="email" name="email" placeholder="******@***.***" bind:value={email} required>
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" bind:value={password} required>
+    <label for="phone">Phone(optional):</label>
+    <input type="text" id="phone" name="phone" bind:value={phone}>
     <input type="submit" value="Submit" class="submit-button">
   </form>
-  <a href="/register">Signin</a>
 </div>
 
 <style>
@@ -78,17 +85,12 @@
   }
 
   
-  .login-form {
+  .register-form {
     display: flex;
     flex-direction: column;
   }
 
   .submit-button {
     margin-top: 20px;
-  }
-
-  a {
-    margin-top: 20px;
-    font-size: 0.8rem;
   }
 </style>
