@@ -11,14 +11,14 @@
     console.log("Requesting Registration")
     event.preventDefault();
 
-    if (!email || !password || !name) {
+    if (!name || !password) {
       error = "Please fill in all fields";
       return;
     }
 
     try {
       console.log("Attempting to stringify:", {
-        email: email,
+        name: name,
         password: password
       });
 
@@ -63,21 +63,31 @@
   <h1 class="Title">Signin</h1>
   <form class="register-form" on:submit={registerRequest}>
     <label for="name">Name:</label>
-    <input type="text" id="name" name="name" placeholder="Manzano" bind:value={name} required>
-    <label for="email">Email:</label>
-    <input type="text" id="email" name="email" placeholder="******@***.***" bind:value={email} required>
+    <input type="text" id="name" name="name" placeholder="Name" bind:value={name} required>
+    <label for="email">Email (optional):</label>
+    <input type="text" id="email" name="email" placeholder="******@***.***" bind:value={email}>
     <label for="password">Password:</label>
-    <input type="password" id="password" name="password" bind:value={password} required>
-    <label for="phone">Phone(optional):</label>
+    <input type="password" id="password" name="password" placeholder="********" bind:value={password} required>
+    <label for="phone">Phone (optional):</label>
     <input type="text" id="phone" name="phone" bind:value={phone}>
     <input type="submit" value="Submit" class="submit-button">
   </form>
 </div>
 
 <style>
+  :global(body) {
+    margin: 0;
+    padding: 0;
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-color: #eeeeee;
+    background-image: radial-gradient(#f74545 2px, #eeeeee 2px);
+    background-size: 44px 44px;
+  }
+
   .main-container {
     width: 100%;
-    height: 100%;
+    height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: center;

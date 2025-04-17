@@ -27,7 +27,7 @@ export async function toggle_owned(cardID: number) {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to update favorite status');
+      throw new Error('Failed to update owned status');
     }
   } catch(err) {
     console.error(err);

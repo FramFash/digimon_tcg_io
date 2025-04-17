@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
   
-  let email: string = '';
+  let name: string = '';
   let password: string = '';
   let error: string = '';
 
@@ -9,19 +9,19 @@
     console.log("Requesting authorization")
     event.preventDefault();
 
-    if (!email || !password) {
+    if (!name || !password) {
       error = "Please fill in all fields";
       return;
     }
 
     try {
       console.log("Attempting to stringify:", {
-        email: email,
+        name: name,
         password: password
       });
 
       const body = JSON.stringify({
-        email: email.trim(),
+        name: name.trim(),
         password: password
       });
 
@@ -47,7 +47,7 @@
       error = err instanceof Error? err.message : "Login failed";
       console.error('Login error:', {
         error: err,
-        email: email,
+        name: name,
         password: password
       });
     } 
@@ -58,8 +58,8 @@
 <div class="main-container">
   <h1 class="Title">Login</h1>
   <form class="login-form" on:submit={loginRequest}>
-    <label for="email">Email:</label>
-    <input type="text" id="email" name="email" placeholder="Manzano" bind:value={email} required>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" placeholder="Name" bind:value={name} required>
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" bind:value={password} required>
     <input type="submit" value="Submit" class="submit-button">
@@ -80,7 +80,7 @@
 
   .main-container {
     width: 100%;
-    height: 100%;
+    height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
