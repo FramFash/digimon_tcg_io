@@ -68,6 +68,16 @@
 </div>
 
 <style>
+  :global(body) {
+    margin: 0;
+    padding: 0;
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-color: #eeeeee;
+    background-image: radial-gradient(#f74545 2px, #eeeeee 2px);
+    background-size: 44px 44px;
+  }
+
   .main-container {
     width: 100%;
     height: 100%;

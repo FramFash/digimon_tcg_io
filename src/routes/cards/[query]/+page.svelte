@@ -1,19 +1,25 @@
 <script lang="ts">
   import { writable } from 'svelte/store';
-  import { searchTerm, searchType, filterItems } from '$lib/stores/search.js';
+  import { page } from '$app/stores';
   import { toggle_favorite, toggle_owned } from '$lib/db.js';
   import Search from '$lib/components/Search.svelte';
-  
   export let data;
   
   let cards = data?.cards || [];
   let error = null;
+  let isLoading = false;
+
+  let searchQuery = $page.params.query;
 
   if (cards.length < 1) {
     error = '404 NOT FOUND';
   }
 
-  $: filteredCards = filterItems(cards, $searchTerm, $searchType);
+  $: {
+    if ($page.params.query) {
+      loadData($page.params.query);
+    }
+  }
 
   const activeStates = writable(new Map());
 
@@ -24,21 +30,45 @@
     });
   }
 
+  async function loadData(query) {
+    isLoading = true;
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/cards/search?q=${query}`, {
+        credentials: 'include',
+        headers: {
+          Cookie: document.cookie
+        }
+      });
+      if(!response.ok) throw new Error('Failed to fetch');
+      cards = await response.json();
+      error = cards.length < 1 ? '404 NOT FOUND' : null;
+    } catch (err) {
+      error = err.message;
+      cards = [];
+    } finally {
+      isLoading = false;
+    }
+  }
+
 </script>
 
 {#if error}
   <p class="error">{error}</p>
+{:else if isLoading}
+<h2>Loading...</h2>
 {:else}
   <div class="set-details">
-    <div class="head"><a href="./sets/"><img src="/images/logo.png" alt="Digimon Card Game"></a></div>
-    <div class="header">
-      <h1>Owned</h1>
+    <div class="head"><a href="/sets/"><img src="/images/logo.png" alt="Digimon Card Game"></a></div>
+    <div class="title">
+      <h1>Search {searchQuery}</h1>
     </div>
-    <Search searchTypes={['name', 'card_no']} placeholder="Search cards..."/>
-    <h2>Owned Cards ({cards.length})</h2>
+    <Search searchTypes={['name', 'card_no']} placeholder='Search Cards'/>
+    
+    <h2>Cards in this set ({cards.length})</h2>
     
     <div class="card-grid">
-      {#each filteredCards as card}
+      {#each cards as card}
         <div class="card" class:favorite={card.is_favorite} class:owned={card.is_owned}>
           <div class="card-buttons">
             <button on:click={(_) => {toggle_favorite(card.id); if (card.is_favorite) {card.is_favorite = false} else {card.is_favorite = true}}}><img src={card.is_favorite ? '/images/favfilled.png' : '/images/fav.png'} alt="fav"></button>
@@ -77,7 +107,7 @@
     justify-content: center;
   }
 
-  .header {
+  .title {
     display: flex;
     justify-content: center;
   }
@@ -110,10 +140,9 @@
   }
 
   .favorite {
-    background-image: linear-gradient(to right, #FBD3E9 0%, #BB377D  51%, #FBD3E9  100%);
+    background-image: linear-gradient(to right, #BB377D 0%, #FBD3E9  51%, #BB377D  100%);
     transition: 0.5s;
     background-size: 200% auto;
-    color: white;            
   }
 
   .favorite:hover {
@@ -126,7 +155,6 @@
     background-image: linear-gradient(to right, #16A085 0%, #F4D03F  51%, #16A085  100%);
     transition: 0.5s;
     background-size: 200% auto;
-    color: black;         
   }
   .owned:hover {
     background-position: right center; /* change the direction of the change here */
@@ -226,7 +254,7 @@
   @media (min-width: 1000px) {
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 360px));
+      grid-template-columns: repeat(auto-fill, minmax(200px, 360px));
       gap: 1rem;
     }
   }

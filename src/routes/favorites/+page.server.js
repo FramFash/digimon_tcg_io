@@ -14,8 +14,6 @@ export async function load({ cookies, fetch }) {
     
     const data = await response.json();
     
-    console.log(data);
-
     return {
       cards: data,
     };

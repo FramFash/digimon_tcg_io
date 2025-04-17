@@ -7,6 +7,7 @@
 
 <div class="search-container">
   <input type="text" bind:value={$searchTerm} placeholder={placeholder}/>
+  <a href={`/cards/${$searchTerm}`}><img src="/images/search.png" alt=""></a>
 
   {#if searchTypes.length > 1}
     <select bind:value={$searchType}>
@@ -37,6 +38,22 @@
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 4px;
+  }
+
+  a {
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    margin: 0;
+    border: 1px solid gray;
+    border-radius: 5px;
+    background-color: white;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+    }
   }
 
 </style>

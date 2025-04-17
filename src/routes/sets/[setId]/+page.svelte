@@ -1,6 +1,8 @@
 <!-- src/routes/sets/[setId]/+page.svelte -->
 <script lang="ts">
   // import { onMount } from 'svelte';
+  import { writable } from 'svelte/store';
+  import { toggle_favorite, toggle_owned } from '$lib/db';
   import { searchTerm, searchType, filterItems} from '$lib/stores/search.js';
   import Search from '$lib/components/Search.svelte';
   
@@ -19,40 +21,18 @@
 
   $: filteredCards = filterItems(cards, $searchTerm, $searchType);
 
-  async function toggle_favorite(cardID: number) {
-    try {
-      const response = await fetch(`http://localhost:8080/api/cards/${cardID}/favorite`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+  const activeStates = writable(new Map());
 
-      if (!response.ok) {
-        throw new Error('Failed to update favorite status');
-      }
-    } catch(err) {
-      console.error(err);
-    }
+  function togglePopup(id: number) {
+    activeStates.update(map => {
+      map.set(id, !map.get(id));
+      return new Map(map);
+    });
   }
 
-  async function toggle_owned(cardID: number) {
-    try {
-      const response = await fetch(`http://localhost:8080/api/cards/${cardID}/owned`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to update favorite status');
-      }
-    } catch(err) {
-      console.error(err);
-    }
+  function formatDateOnly(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
   }
 
   // If you want to fetch client-side instead of server-side:
@@ -79,10 +59,11 @@
   <p>Loading...</p>
 {:else}
   <div class="set-details">
+    <div class="head"><a href="/sets/"><img src="/images/logo.png" alt="Digimon Card Game"></a></div>
     <div class="set">
       <h1>{set.name}</h1>
       <img src={set.image_local} alt={set.name} on:error={(e) => {e.target.src=set.image}}/>
-      <p>Release Date: {set.release_date}</p>
+      <p>Release Date: {formatDateOnly(set.release_date)}</p>
     </div>
     <Search searchTypes={['name', 'card_no']} placeholder='Search Cards'/>
     
@@ -93,13 +74,12 @@
         <div class="card" class:favorite={card.is_favorite} class:owned={card.is_owned}>
           <div class="card-buttons">
             <button on:click={(_) => {toggle_favorite(card.id); if (card.is_favorite) {card.is_favorite = false} else {card.is_favorite = true}}}><img src={card.is_favorite ? '/images/favfilled.png' : '/images/fav.png'} alt="fav"></button>
-            <button on:click={(_) => {toggle_owned(card.id); if (card.is_owned) {card.is_owned = false} else {card.is_owned = true}}}><img src={card.is_owned ? '' : '/images/owned.png'} alt="own"></button>
+            <button on:click={(_) => {toggle_owned(card.id); if (card.is_owned) {card.is_owned = false} else {card.is_owned = true}}}><img src={card.is_owned ? '/images/isowned.png' : '/images/owned.png'} alt="own"></button>
           </div>
-          <h3>{card.name} [{card.card_no}]</h3>
           <div class="card-top">
-            {#if card.top.img_web}
+            <button class={$activeStates.get(card.id) ? 'img-container-popup' : 'img-container'} on:click={() => {togglePopup(card.id)}}>
               <img src= {card.top.img_local} alt={card.name} on:error={(e) => {e.target.src=card.top.img_web}}/>
-            {/if}
+            </button>
           </div>
           <div class="card-bottom">
             <h4>notes:</h4>
@@ -113,9 +93,26 @@
   </div>
 {/if}
 
+
 <style>
+  :global(body) {
+    margin: 0;
+    padding: 0;
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-color: #eeeeee;
+    background-image: radial-gradient(#f74545 2px, #eeeeee 2px);
+    background-size: 44px 44px;
+  }
+
+  .head {
+    display: flex;
+    justify-content: center;
+  }
+
   .set-details {
     margin: 0 20px;
+    color: black;
   }
 
   .set {
@@ -123,6 +120,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: black;
 
     & img {
       max-height: 300px;
@@ -131,43 +129,123 @@
 
   .card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 250px));
+    grid-template-columns: repeat(auto-fill, minmax(100px, 290px));
     gap: 1rem;
   }
   .card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 1px solid #ddd;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 1px 1px 2px 2px gray;
+    display: subgrid;
+    padding: 0.5rem;
+    border-radius: 9px;
+    border: solid 1px gray;
+    box-shadow: 0 0 10px gray;
+    background-image: linear-gradient(to right, #EAECC6 0%, #2BC0E4  51%, #EAECC6  100%);
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: black;
+  }
+
+  .card:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
   }
 
   .favorite {
-    background: linear-gradient(90deg, rgba(255,114,175,1) 0%, rgba(231,175,204,1) 70%, rgba(177,183,223,1) 90%, rgba(148,187,233,1) 100%);
-    color: white;
+    background-image: linear-gradient(to right, #FBD3E9 0%, #BB377D  51%, #FBD3E9  100%);
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;            
+  }
+
+  .favorite:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
   }
 
   .owned {
-    background: linear-gradient(90deg, rgba(27,176,84,1) 0%, rgba(137,219,118,1) 70%, rgba(184,234,140,1) 90%, rgba(223,241,150,1) 100%);
-    color: white;
+    background-image: linear-gradient(to right, #16A085 0%, #F4D03F  51%, #16A085  100%);
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: black;         
+  }
+  .owned:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
   }
 
   .favorite.owned {
-    background: radial-gradient(circle, #8A6E2F 0%, #9f7928 50%, #FDB931 80%, #FEDB37 100%);
-    color: white;
+  
+    background-image: linear-gradient(to right, #D1913C 0%, #FFD194  51%, #D1913C  100%);
+    transition: 0.5s;
+    background-size: 200% auto;
+  }
+
+  .favorite.owned:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .img-container {
+    background: rgba(255, 255, 255, 0);
+    border: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 0.2rem;
+
+    & img {
+      width: 100%;
+      box-shadow: 0px 0px 3px 1px gray;
+      border-radius: 15px;
+    }
+
+    & img:hover {
+      transform: scale(1.05, 1.05);
+    }
+  }
+
+  .img-container-popup {
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    border: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 0.2rem;
+
+    & img {
+      width: 500px;
+      border: solid 2px white;
+      border-radius: 26px;
+      box-shadow: 0 0 60px 5px white;
+    }
   }
 
   .card-top {
-    margin-bottom: 1rem;
+    margin: 0;
   }
+
   .card img {
     max-width: 100%;
+
   }
   .card-bottom {
     margin: 0;
     padding: 0;
+
+    & h4 {
+      margin: 0;
+    }
+
+    & p {
+      margin: 0;
+      font-size: 1rem;
+    }
   }
 
   .card-buttons {
@@ -186,23 +264,10 @@
     cursor: pointer;
   }
 
-  .search-bar {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-
-    & input {
-      width: 80%;
-      height: 30px;
-      border-radius: 10px;
-      border: solid 1px gray;
-    }
-  }
-
   @media (min-width: 1000px) {
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 320px));
+      grid-template-columns: repeat(auto-fill, minmax(300px, 360px));
       gap: 1rem;
     }
   }
