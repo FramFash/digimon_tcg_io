@@ -1,0 +1,1 @@
+import{t as o,a as i}from"../chunks/0jAoUWee.js";import"../chunks/BeYzX27F.js";var t=o('<div class="main-container svelte-1owq46k"><div class="header svelte-1owq46k"><a href="sets/"><img src="/images/logo.png" alt="Digimon Card Game"></a></div></div>');function m(a){var e=t();i(a,e)}export{m as component};
