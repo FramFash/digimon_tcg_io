@@ -1,15 +1,12 @@
 // src/routes/sets/[setId]/+page.server.js
+import { GetSet } from '$lib/data';
+
 export async function load({ params, cookies, fetch }) {
   const { setId } = params;
   
   try {
     // Fetch set details and cards
-    const response = await fetch(`http://localhost:8080/api/cards/set/${setId}`, {
-      credentials: 'include',
-      headers: {
-        Cookie: cookies.getAll().map(c => `${c.name}=${c.value}`).join('')
-      }
-    });
+    const response = await fetch(`https://digimoncard.io/api-public/search.php?pack=${setId}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch set: ${response.status}`);
     }
@@ -17,8 +14,8 @@ export async function load({ params, cookies, fetch }) {
     const data = await response.json();
     
     return {
-      set: data.set,
-      cards: data.cards
+      set: GetSet(setId),
+      cards: data
     };
   } catch (error) {
     console.error('Error loading set:', error);

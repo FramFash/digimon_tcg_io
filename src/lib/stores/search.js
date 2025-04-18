@@ -11,7 +11,7 @@ export function filterItems(items, term, type) {
     if (type === 'name') {
       return item.name.toLowerCase().includes(lowerTerm);
     } else if (type == 'id') {
-      return item.id.toLowerCase().includes(lowerTerm);
+      return item.set_id.toLowerCase().includes(lowerTerm);
     } else if (type == 'card_no') {
       return item.card_no.toLowerCase().includes(lowerTerm)
     }

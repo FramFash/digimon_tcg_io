@@ -3,12 +3,7 @@ export async function load({ params, cookies, fetch }) {
   
   try {
     // Fetch set details and cards
-    const response = await fetch(`http://localhost:8080/api/cards/search?q=${query}`, {
-      credentials: 'include',
-      headers: {
-        Cookie: cookies.getAll().map(c => `${c.name}=${c.value}`).join('')
-      }
-    });
+    const response = await fetch(`http://digimoncard.io/api-public/search.php?n=${query}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch set: ${response.status}`);
     }

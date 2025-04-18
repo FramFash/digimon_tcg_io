@@ -1,8 +1,10 @@
 <script lang="ts">
   import { writable } from 'svelte/store';
   import { page } from '$app/stores';
-  import { toggle_favorite, toggle_owned } from '$lib/db.js';
+  import { toggle_favorite, toggle_owned, favorites, owned} from '$lib/stores/fav_owned';
   import Search from '$lib/components/Search.svelte';
+  import Card from '$lib/components/Card.svelte';
+
   export let data;
   
   let cards = data?.cards || [];
@@ -34,12 +36,7 @@
     isLoading = true;
 
     try {
-      const response = await fetch(`http://localhost:8080/api/cards/search?q=${query}`, {
-        credentials: 'include',
-        headers: {
-          Cookie: document.cookie
-        }
-      });
+      const response = await fetch(`http://digimoncard.io/api-public/search.php?n=${query}`);
       if(!response.ok) throw new Error('Failed to fetch');
       cards = await response.json();
       error = cards.length < 1 ? '404 NOT FOUND' : null;
@@ -69,23 +66,7 @@
     
     <div class="card-grid">
       {#each cards as card}
-        <div class="card" class:favorite={card.is_favorite} class:owned={card.is_owned}>
-          <div class="card-buttons">
-            <button on:click={(_) => {toggle_favorite(card.id); if (card.is_favorite) {card.is_favorite = false} else {card.is_favorite = true}}}><img src={card.is_favorite ? '/images/favfilled.png' : '/images/fav.png'} alt="fav"></button>
-            <button on:click={(_) => {toggle_owned(card.id); if (card.is_owned) {card.is_owned = false} else {card.is_owned = true}}}><img src={card.is_owned ? '/images/isowned.png' : '/images/owned.png'} alt="own"></button>
-          </div>
-          <div class="card-top">
-            <button class={$activeStates.get(card.id) ? 'img-container-popup' : 'img-container'} on:click={() => {togglePopup(card.id)}}>
-              <img src= {card.top.img_local} alt={card.name} on:error={(e) => {e.target.src=card.top.img_web}}/>
-            </button>
-          </div>
-          <div class="card-bottom">
-            <h4>notes:</h4>
-            {#each card.bottom.notes as effect}
-              <p>{effect}</p>
-            {/each}
-          </div>
-        </div>
+        <Card card={card} activeStates={activeStates} />
       {/each}
     </div>
   </div>

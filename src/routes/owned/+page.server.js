@@ -1,27 +1,32 @@
 export async function load({ cookies, fetch }) {
   
-  try {
-    // Fetch set details and cards
-    const response = await fetch(`http://localhost:8080/api/cards/owned`, {
-      credentials: 'include',
-      headers: {
-        Cookie: cookies.getAll().map(c => `${c.name}=${c.value}`).join('')
+  console.log('owned');
+  const ownIds = JSON.parse(cookies.get('owned') || '[]');
+  const ownedMap = new Map(ownIds);
+
+  console.log(ownIds);
+  console.log(ownedMap);
+
+  let results = [];
+
+  for (const [cardId] of ownedMap) {
+    try {
+      const url = `https://digimoncard.io/api-public/search.php?card=${cardId}`;
+      console.log(url);
+      const response = await fetch(url);
+
+      if (response.ok) {
+        const data = await response.json();
+        results = [...results, ...data];
       }
-    });
-    if (!response.ok) {
-      throw new Error(`Failed to fetch set: ${response.status}`);
+    } catch(error) {
+      console.error('error loading card:', cardId, error);
     }
-    
-    const data = await response.json();
-    
-    return {
-      cards: data,
-    };
-  } catch (error) {
-    console.error('Error loading set:', error);
-    return {
-      status: 500,
-      error: error.message
-    };
   }
+
+  console.log(results);
+
+  return {
+    cards: results,
+  };
 }
