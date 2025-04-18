@@ -57,7 +57,7 @@
 <h2>Loading...</h2>
 {:else}
   <div class="set-details">
-    <div class="head"><a href="/sets/"><img src={`${base}/images/logo.png`} alt="Digimon Card Game"></a></div>
+    <div class="head"><a href={`${base}/sets`}><img src={`${base}/images/logo.png`} alt="Digimon Card Game"></a></div>
     <div class="title">
       <h1>Search {searchQuery}</h1>
     </div>

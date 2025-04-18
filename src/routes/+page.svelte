@@ -3,7 +3,7 @@
 </script>
 
 <div class="main-container">
-  <div class="header"><a href="sets/"><img src={`${base}/images/logo.png`} alt="Digimon Card Game"></a></div>
+  <div class="header"><a href={`${base}/sets`}><img src={`${base}/images/logo.png`} alt="Digimon Card Game"></a></div>
 </div>
 
 <style>

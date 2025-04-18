@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
+  import { base } from '$app/paths';
   
   let name: string = '';
   let email: string = '';
@@ -44,7 +45,7 @@
         throw new Error(err.error || 'Login failed');
       }
 
-      goto('/sets');
+      goto(`${base}/sets`);
     } catch (err) {
       error = err instanceof Error? err.message : "Login failed";
       console.error('Login error:', {

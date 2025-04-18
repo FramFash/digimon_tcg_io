@@ -1,5 +1,6 @@
 <script>
   import {searchTerm, searchType } from '../stores/search';
+  import { base } from '$app/paths';
 
   export let searchTypes = ['name'];
   export let placeholder = "Search...";
@@ -7,7 +8,7 @@
 
 <div class="search-container">
   <input type="text" bind:value={$searchTerm} placeholder={placeholder}/>
-  <a href={`/cards/${$searchTerm}`}><img src="/images/search.png" alt=""></a>
+  <a href={`${base}/cards/${$searchTerm}`}><img src={`${base}/images/search.png`} alt=""></a>
 
   {#if searchTypes.length > 1}
     <select bind:value={$searchType}>

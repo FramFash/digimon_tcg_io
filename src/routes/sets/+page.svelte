@@ -22,19 +22,19 @@
   <p class="error">{error}</p>
 {:else}
   <div class="main-container">
-    <div class="header"><a href="./sets/"><img src={`${base}/images/logo.png`} alt="Digimon Card Game"></a></div>
+    <div class="header"><a href={`${base}/sets`}><img src={`${base}/images/logo.png`} alt="Digimon Card Game"></a></div>
     <div class="title">
-      <a class="direct-buttons" href="/favorites"><img src={`${base}/images/fav.png`} alt="fav"></a>
+      <a class="direct-buttons" href={`${base}/favorites`}><img src={`${base}/images/fav.png`} alt="fav"></a>
       <h1>Card Sets</h1>
-      <a class="direct-buttons" href="/owned"><img src={`${base}/images/owned.png`} alt="fav"></a>
+      <a class="direct-buttons" href={`${base}/owned`}><img src={`${base}/images/owned.png`} alt="fav"></a>
     </div>
     <Search searchTypes={['id', 'name']} placeholder="Search sets..." />
     <div class="card-container">
       {#each filteredSets as set}
       <div class="each-card">
-        <a href={`/sets/${set.set_id}`} class="set-link">
+        <a href={`${base}/sets/${set.set_id}`} class="set-link">
           <h2>[{set.set_id}] {set.name}</h2>
-            <img src={set.img} alt={set.name} on:error={(e) => {e.target.src='/images/logo.png'}}/>
+            <img src={set.img} alt={set.name} on:error={(e) => {e.target.src={`${base}/images/logo.png`}}}/>
           <p>Released: {formatDateOnly(set.release_date)}</p>
         </a>
       </div>

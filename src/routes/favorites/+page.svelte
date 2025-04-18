@@ -33,7 +33,7 @@
   <p class="error">{error}</p>
 {:else}
   <div class="set-details">
-    <div class="head"><a href="./sets/"><img src={`${base}/images/logo.png`} alt="Digimon Card Game"></a></div>
+    <div class="head"><a href={`${base}/sets`}><img src={`${base}/images/logo.png`} alt="Digimon Card Game"></a></div>
     <div class="header">
       <h1>Favorites</h1>
     </div>
