@@ -28,7 +28,7 @@ jobs:
 
       - name: build
         env:
-         BASE_PATH: '/${{ github.event.digimon_tcg_io }}'
+         BASE_PATH: '/digimon_tcg_io'
         run: |
           npm run build
 
