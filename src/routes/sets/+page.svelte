@@ -34,7 +34,7 @@
       <div class="each-card">
         <a href={`${base}/sets/${set.set_id}`} class="set-link">
           <h2>[{set.set_id}] {set.name}</h2>
-            <img src={set.img} alt={set.name} on:error={(e) => {e.target.src={`${base}/images/logo.png`}}}/>
+            <img src={set.img} alt={set.name} on:error={(e) => {e.target.src=`${base}/images/logo.png`}}/>
           <p>Released: {formatDateOnly(set.release_date)}</p>
         </a>
       </div>
