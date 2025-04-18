@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores';
+  import { base } from '$app/paths';
   import { searchTerm, searchType, filterItems } from '$lib/stores/search';
   import { sets } from '$lib/data';
 
@@ -21,11 +22,11 @@
   <p class="error">{error}</p>
 {:else}
   <div class="main-container">
-    <div class="header"><a href="./sets/"><img src="/images/logo.png" alt="Digimon Card Game"></a></div>
+    <div class="header"><a href="./sets/"><img src={`${base}/images/logo.png`} alt="Digimon Card Game"></a></div>
     <div class="title">
-      <a class="direct-buttons" href="/favorites"><img src="images/fav.png" alt="fav"></a>
+      <a class="direct-buttons" href="/favorites"><img src={`${base}/images/fav.png`} alt="fav"></a>
       <h1>Card Sets</h1>
-      <a class="direct-buttons" href="/owned"><img src="images/owned.png" alt="fav"></a>
+      <a class="direct-buttons" href="/owned"><img src={`${base}/images/owned.png`} alt="fav"></a>
     </div>
     <Search searchTypes={['id', 'name']} placeholder="Search sets..." />
     <div class="card-container">

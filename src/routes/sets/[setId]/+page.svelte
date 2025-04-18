@@ -2,6 +2,7 @@
 <script lang="ts">
   // import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
+  import { base } from '$app/paths';
   import { toggle_favorite, toggle_owned, favorites, owned} from '$lib/stores/fav_owned';
   import { searchTerm, searchType, filterItems} from '$lib/stores/search.js';
   import Search from '$lib/components/Search.svelte';
@@ -62,7 +63,7 @@
   <p>Loading...</p>
 {:else}
   <div class="set-details">
-    <div class="head"><a href="/sets/"><img src="/images/logo.png" alt="Digimon Card Game"></a></div>
+    <div class="head"><a href="/sets/"><img src={`${base}/images/logo.png`} alt="Digimon Card Game"></a></div>
     <div class="set">
       <h1>[{set.set_id}] {set.name}</h1>
       <img src={set.img} alt={set.name} on:error={(e) => {e.target.src='/images/logo.png'}}/>

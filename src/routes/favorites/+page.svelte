@@ -1,5 +1,6 @@
 <script lang="ts">
   import { writable } from 'svelte/store';
+  import { base } from '$app/paths';
   import { searchTerm, searchType, filterItems } from '$lib/stores/search.js';
   import { favorites } from '$lib/stores/fav_owned.js';
 
@@ -32,7 +33,7 @@
   <p class="error">{error}</p>
 {:else}
   <div class="set-details">
-    <div class="head"><a href="./sets/"><img src="/images/logo.png" alt="Digimon Card Game"></a></div>
+    <div class="head"><a href="./sets/"><img src={`${base}/images/logo.png`} alt="Digimon Card Game"></a></div>
     <div class="header">
       <h1>Favorites</h1>
     </div>

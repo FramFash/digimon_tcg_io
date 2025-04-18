@@ -1,9 +1,9 @@
 <script lang="ts">
-
+  import { base } from '$app/paths';
 </script>
 
 <div class="main-container">
-  <div class="header"><a href="sets/"><img src="/images/logo.png" alt="Digimon Card Game"></a></div>
+  <div class="header"><a href="sets/"><img src={`${base}/images/logo.png`} alt="Digimon Card Game"></a></div>
 </div>
 
 <style>
