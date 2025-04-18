@@ -13,7 +13,7 @@ export function filterItems(items, term, type) {
     } else if (type == 'id') {
       return item.set_id.toLowerCase().includes(lowerTerm);
     } else if (type == 'card_no') {
-      return item.card_no.toLowerCase().includes(lowerTerm)
+      return item.id.toLowerCase().includes(lowerTerm)
     }
 
     return true;

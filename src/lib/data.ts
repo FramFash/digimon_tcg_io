@@ -395,7 +395,7 @@ export let sets: Set[] = [
     set_id: 'ST-21',
     name: 'Hero of hope',
     release_date: '2025-04-18',
-    img: 'https://world.digimoncard.com/images/products/deck/st-20/img_pkg.png',
+    img: 'https://world.digimoncard.com/images/products/deck/st-21/img_pkg.png',
   },
 ]
 
