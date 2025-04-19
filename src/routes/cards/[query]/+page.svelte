@@ -18,7 +18,7 @@
     try {
       const response = await fetch(`https://digimoncard.io/api-public/search.php?n=${searchQuery}`);
       const json = await response.json();
-      cards = json.cards;
+      cards = json;
 
     } catch (err) {
       error = err.message;
