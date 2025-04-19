@@ -149,7 +149,7 @@
 
   @media (max-width: 500px) {
     .card-container {
-      grid-template-columns: repeat(auto-fill, minmax(200px, 205px));
+      grid-template-columns: repeat(auto-fill, minmax(150px, 205px));
       grid-template-rows: repeat(auto-fill, minmax(300px, 350px));
       gap: 0.3rem;
     }

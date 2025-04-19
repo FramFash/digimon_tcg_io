@@ -10,12 +10,10 @@
   import Search from '$lib/components/Search.svelte';
   import Card from '$lib/components/Card.svelte';
   
-  export let data;
-
   const { setId } = $page.params;
   
   let set = GetSet(setId) || {};
-  let cards = data?.cards || [];
+  let cards = [];
   let loading = true;
   let error = null;
 

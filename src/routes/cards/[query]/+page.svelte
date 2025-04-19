@@ -6,10 +6,8 @@
   import { toggle_favorite, toggle_owned, favorites, owned} from '$lib/stores/fav_owned';
   import Search from '$lib/components/Search.svelte';
   import Card from '$lib/components/Card.svelte';
-
-  export let data;
   
-  let cards = data?.cards || [];
+  let cards = [];
   let error = null;
   let isLoading = false;
 
@@ -54,7 +52,7 @@
     isLoading = true;
 
     try {
-      const response = await fetch(`http://digimoncard.io/api-public/search.php?n=${query}`);
+      const response = await fetch(`https://digimoncard.io/api-public/search.php?n=${query}`);
       if(!response.ok) throw new Error('Failed to fetch');
       cards = await response.json();
       error = cards.length < 1 ? '404 NOT FOUND' : null;
