@@ -1,19 +1,50 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+  import { page } from '$app/stores';
+  import { browser } from '$app/environment';
   import { writable } from 'svelte/store';
   import { base } from '$app/paths';
   import { searchTerm, searchType, filterItems } from '$lib/stores/search.js';
-  import { toggle_favorite, toggle_owned } from '$lib/stores/fav_owned.js';
+  import { getOwnedCookie, toggle_favorite, toggle_owned } from '$lib/stores/fav_owned.js';
   import Search from '$lib/components/Search.svelte';
 	import Card from '$lib/components/Card.svelte';
   
-  export let data;
-  
-  let cards = data?.cards || [];
+  let cards = [];
   let error = null;
 
-  if (cards.length < 1) {
-    error = '404 NOT FOUND';
-  }
+  onMount(async () => {
+    console.log('onmount');
+    if (!browser) return;
+
+    try {
+      const ownedMap = getOwnedCookie();
+      console.log(ownedMap);
+
+      const results = [];
+      const requests = [];
+
+      for (const [cardId] of ownedMap) {
+        requests.push(
+          fetch(`https://digimoncard.io/api-public/search.php?card=${cardId}`).then(response => {
+            if (response.ok) return response.json();
+            throw new Error(`Failed to fetch card ${cardId}`);
+          }).then(data => results.push(...data)).catch(err => {
+            console.error('Error loading card:', cardId, err);
+            return null
+          })
+        )
+      }
+
+      await Promise.all(requests);
+
+      cards = results;
+
+      console.log(cards);
+      
+    } catch (err) {
+      error = err.message;
+    }
+  });
 
   $: filteredCards = filterItems(cards, $searchTerm, $searchType);
 

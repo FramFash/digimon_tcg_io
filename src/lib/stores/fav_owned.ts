@@ -2,7 +2,7 @@ import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
 
 
-function getFavoritesCookie(): Map<any, any> {
+export function getFavoritesCookie(): Map<any, any> {
   if (!browser) return new Map();
 
   const cookieValue = document.cookie.split('; ').find(row => row.startsWith('favorites='))?.split('=')[1];
@@ -44,7 +44,7 @@ export function toggle_favorite(cardId: string) {
     });
 }
 
-function getOwnedCookie(): Map<any, any> {
+export function getOwnedCookie(): Map<any, any> {
   if (!browser) return new Map();
 
   const cookieValue = document.cookie.split('; ').find(row => row.startsWith('owned='))?.split('=')[1];

@@ -1,19 +1,36 @@
 <!-- src/routes/sets/[setId]/+page.svelte -->
 <script lang="ts">
-  // import { onMount } from 'svelte';
+  import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
   import { base } from '$app/paths';
+  import { page } from '$app/stores';
   import { toggle_favorite, toggle_owned, favorites, owned} from '$lib/stores/fav_owned';
   import { searchTerm, searchType, filterItems} from '$lib/stores/search.js';
+  import { GetSet } from '$lib/data';
   import Search from '$lib/components/Search.svelte';
   import Card from '$lib/components/Card.svelte';
   
   export let data;
+
+  const { setId } = $page.params;
   
-  let set = data?.set || {};
+  let set = GetSet(setId) || {};
   let cards = data?.cards || [];
   let loading = true;
   let error = null;
+
+  onMount(async () => {
+    loading = true;
+    try {
+      const response = await fetch(`https://digimoncard.io/api-public/search.php?pack=${setId}`);
+      const json = await response.json();
+      cards = json;
+    } catch (err) {
+      error = err.message;
+    } finally {
+      loading = false;
+    }
+  });
 
   if (Object.keys(set).length === 0 && cards.length < 1) {
     error = '404 NOT FOUND';
@@ -40,21 +57,6 @@
   $searchTerm = '';
 
   // If you want to fetch client-side instead of server-side:
-  /*
-  onMount(async () => {
-    loading = true;
-    try {
-      const response = await fetch(`/api/sets/${data.params.setId}`);
-      const json = await response.json();
-      set = json.set;
-      cards = json.cards;
-    } catch (err) {
-      error = err.message;
-    } finally {
-      loading = false;
-    }
-  });
-  */
 </script>
 
 {#if error}
