@@ -130,6 +130,22 @@
       gap: 1rem;
     }
   }
+
+  @media (max-width: 500px) {
+    .card-grid {
+      grid-template-columns: repeat(auto-fill, minmax(50px, 120px));
+      grid-template-rows: repeat(auto-fill, minmax(50px, 240px));
+      gap: 0.8rem;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .card-grid {
+      grid-template-columns: repeat(auto-fill, minmax(50px, 100px));
+      grid-template-rows: repeat(auto-fill, minmax(50px, 220px));
+      gap: 0.6rem;
+    }
+  }
 </style>
 
 <!--Pink lineargradient-->

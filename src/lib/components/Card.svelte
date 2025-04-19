@@ -98,6 +98,7 @@
   padding: 0;
   margin: 0;
   margin-top: 0.2rem;
+  transition: 0.5s;
 
   & img {
     width: 100%;
@@ -121,6 +122,7 @@
   padding: 0;
   margin: 0;
   margin-top: 0.2rem;
+  transition: 0.5s;
 
   & img {
     width: 500px;
@@ -166,5 +168,45 @@
   background: rgba(255, 255, 255, 0);
   border: none;
   cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .card {
+    font-size: 0.6rem;
+  }
+
+  .card-bottom {
+    height: 40px;
+    overflow-y: scroll;
+
+    & p {
+      font-size: 0.6rem;
+    }
+  }
+
+  .img-container-popup img {
+    width: 90%;
+    box-shadow: 0 0 30px 2px white;
+  }
+}
+
+@media (max-width: 400px) {
+  .card {
+    font-size: 0.6rem;
+  }
+
+  .card-bottom {
+    height: 40px;
+    overflow-y: scroll;
+
+    & p {
+      font-size: 0.6rem;
+    }
+  }
+
+  .img-container-popup img {
+    width: 90%;
+    box-shadow: 0 0 30px 2px white;
+  }
 }
 </style>

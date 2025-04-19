@@ -57,4 +57,10 @@
     }
   }
 
+  @media (max-width: 500px) {
+    input {
+      width: 200px;
+    }
+  }
+
 </style>

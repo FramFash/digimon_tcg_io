@@ -90,7 +90,7 @@
     display: flex;
     justify-content: center;
     margin: 10px;
-    padding: 0;
+    padding: 0 0.3rem;
     border-radius: 9px;
     border: solid 1px gray;
     box-shadow: 0 0 10px gray;
@@ -144,6 +144,27 @@
   @media (min-width: 1000px) {
     .card-container {
       grid-template-columns: repeat(auto-fill, minmax(300px, 460px));
+    }
+  }
+
+  @media (max-width: 500px) {
+    .card-container {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 205px));
+      grid-template-rows: repeat(auto-fill, minmax(300px, 350px));
+      gap: 0.3rem;
+    }
+    .each-card {
+      font-size: 0.6rem;
+    }
+  }
+  @media (max-width: 400px) {
+    .card-container {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 175px));
+      grid-template-rows: repeat(auto-fill, minmax(300px, 320px));
+      gap: 0.3rem;
+    }
+    .each-card {
+      font-size: 0.6rem;
     }
   }
 </style>
