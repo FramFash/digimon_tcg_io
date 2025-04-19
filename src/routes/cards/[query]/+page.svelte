@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { fetchCardSearch } from '$lib/api/digimon'
   import { writable } from 'svelte/store';
   import { base } from '$app/paths';
   import { page } from '$app/stores';
@@ -16,9 +17,7 @@
   onMount(async () => {
     isLoading = true;
     try {
-      const response = await fetch(`https://digimoncard.io/api-public/search.php?n=${searchQuery}`);
-      const json = await response.json();
-      cards = json;
+      cards = await fetchCardSearch(searchQuery);
 
     } catch (err) {
       error = err.message;

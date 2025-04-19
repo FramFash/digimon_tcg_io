@@ -8,42 +8,13 @@
   import { getOwnedCookie, toggle_favorite, toggle_owned } from '$lib/stores/fav_owned.js';
   import Search from '$lib/components/Search.svelte';
 	import Card from '$lib/components/Card.svelte';
+	import { cardStorage } from '$lib/utils/cardStorage';
   
   let cards = [];
   let error = null;
 
   onMount(async () => {
-    console.log('onmount');
-    if (!browser) return;
-
-    try {
-      const ownedMap = getOwnedCookie();
-      console.log(ownedMap);
-
-      const results = [];
-      const requests = [];
-
-      for (const [cardId] of ownedMap) {
-        requests.push(
-          fetch(`https://digimoncard.io/api-public/search.php?card=${cardId}`).then(response => {
-            if (response.ok) return response.json();
-            throw new Error(`Failed to fetch card ${cardId}`);
-          }).then(data => results.push(...data)).catch(err => {
-            console.error('Error loading card:', cardId, err);
-            return null
-          })
-        )
-      }
-
-      await Promise.all(requests);
-
-      cards = results;
-
-      console.log(cards);
-      
-    } catch (err) {
-      error = err.message;
-    }
+    cards = cardStorage.getCards('owned');
   });
 
   $: filteredCards = filterItems(cards, $searchTerm, $searchType);

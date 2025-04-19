@@ -21,8 +21,8 @@
 
 <div class="card" class:favorite={$favorites.get(card.id)} class:owned={$owned.get(card.id)}>
   <div class="card-buttons">
-    <button on:click={(_) => {toggle_favorite(card.id)}}><img src={$favorites.get(card.id) ? favFilled : fav} alt="fav"></button>
-    <button on:click={(_) => {toggle_owned(card.id)}}><img src={$owned.get(card.id) ? isOwned : powned} alt="own"></button>
+    <button on:click={(_) => {toggle_favorite(card)}}><img src={$favorites.get(card.id) ? favFilled : fav} alt="fav"></button>
+    <button on:click={(_) => {toggle_owned(card)}}><img src={$owned.get(card.id) ? isOwned : powned} alt="own"></button>
   </div>
   <div class="card-top">
     <button class={$activeStates.get(card.id) ? 'img-container-popup' : 'img-container'} on:click={() => {togglePopup(card.id)}}>

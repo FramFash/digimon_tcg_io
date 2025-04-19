@@ -9,42 +9,13 @@
 
   import Card from '$lib/components/Card.svelte';
   import Search from '$lib/components/Search.svelte';
+	import { cardStorage } from '$lib/utils/cardStorage';
   
   let cards = [];
   let error = null;
 
   onMount(async () => {
-    console.log('onmount');
-    if (!browser) return;
-
-    try {
-      const favoriteMap = getFavoritesCookie();
-      console.log(favoriteMap);
-
-      const results = [];
-      const requests = [];
-
-      for (const [cardId] of favoriteMap) {
-        requests.push(
-          fetch(`https://digimoncard.io/api-public/search.php?card=${cardId}`).then(response => {
-            if (response.ok) return response.json();
-            throw new Error(`Failed to fetch card ${cardId}`);
-          }).then(data => results.push(...data)).catch(err => {
-            console.error('Error loading card:', cardId, err);
-            return null
-          })
-        )
-      }
-
-      await Promise.all(requests);
-
-      cards = results;
-
-      console.log(cards);
-      
-    } catch (err) {
-      error = err.message;
-    }
+    cards = cardStorage.getCards();
   });
 
   $: filteredCards = filterItems(cards, $searchTerm, $searchType);

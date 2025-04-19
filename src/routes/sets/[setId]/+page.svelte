@@ -1,10 +1,10 @@
 <!-- src/routes/sets/[setId]/+page.svelte -->
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { fetchSet } from '$lib/api/digimon';
   import { writable } from 'svelte/store';
   import { base } from '$app/paths';
   import { page } from '$app/stores';
-  import { toggle_favorite, toggle_owned, favorites, owned} from '$lib/stores/fav_owned';
   import { searchTerm, searchType, filterItems} from '$lib/stores/search.js';
   import { GetSet } from '$lib/data';
   import Search from '$lib/components/Search.svelte';
@@ -20,9 +20,7 @@
   onMount(async () => {
     loading = true;
     try {
-      const response = await fetch(`https://digimoncard.io/api-public/search.php?pack=${setId}`);
-      const json = await response.json();
-      cards = json;
+      cards = await fetchSet(setId);
     } catch (err) {
       error = err.message;
     } finally {

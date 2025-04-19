@@ -1,4 +1,5 @@
 import { browser } from '$app/environment';
+import { cardStorage } from '$lib/utils/cardStorage'; 
 import { writable } from 'svelte/store';
 
 
@@ -32,13 +33,15 @@ if (browser) {
   });
 }
 
-export function toggle_favorite(cardId: string) {
+export function toggle_favorite(card) {
     favorites.update(map => {
       const newMap = new Map(map);
-      if (newMap.get(cardId)) {
-        newMap.delete(cardId);
+      if (newMap.get(card.id) && cardStorage.hasCard(card.id)) {
+        newMap.delete(card.id);
+        cardStorage.unmarkCard(card.id);
       } else {
-        newMap.set(cardId, true);
+        newMap.set(card.id, true);
+        cardStorage.markCard(card)
       }
       return new Map(newMap);
     });
@@ -75,13 +78,15 @@ if (browser) {
   });
 }
 
-export function toggle_owned(cardId: string) {
+export function toggle_owned(card) {
     owned.update(map => {
       const newMap = new Map(map);
-      if (newMap.get(cardId)) {
-        newMap.delete(cardId);
+      if (newMap.get(card.id) && cardStorage.hasCard(card.id, 'owned')) {
+        newMap.delete(card.id);
+        cardStorage.unmarkCard(card.id, 'owned')
       } else {
-        newMap.set(cardId, true);
+        newMap.set(card.id, true);
+        cardStorage.markCard(card, 'owned');
       }
       return new Map(newMap);
     });
