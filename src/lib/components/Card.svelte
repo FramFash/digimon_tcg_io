@@ -172,7 +172,7 @@
 
 @media (max-width: 500px) {
   .card {
-    font-size: 0.6rem;
+    font-size: 0.5rem;
   }
 
   .card-bottom {
@@ -180,8 +180,12 @@
     overflow-y: scroll;
 
     & p {
-      font-size: 0.6rem;
+      font-size: 0.5rem;
     }
+  }
+
+  .img-container img {
+    border-radius: 4px;
   }
 
   .img-container-popup img {
@@ -192,7 +196,7 @@
 
 @media (max-width: 400px) {
   .card {
-    font-size: 0.6rem;
+    font-size: 0.5rem;
   }
 
   .card-bottom {
@@ -200,7 +204,7 @@
     overflow-y: scroll;
 
     & p {
-      font-size: 0.6rem;
+      font-size: 0.5rem;
     }
   }
 

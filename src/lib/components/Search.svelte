@@ -1,13 +1,18 @@
 <script>
   import {searchTerm, searchType } from '../stores/search';
+  import { goto } from '$app/navigation';
   import { base } from '$app/paths';
+
+  function handleSearch() {
+    goto(`${base}/cards/${$searchTerm}`);
+  }
 
   export let searchTypes = ['name'];
   export let placeholder = "Search...";
 </script>
 
 <div class="search-container">
-  <input type="text" bind:value={$searchTerm} placeholder={placeholder}/>
+  <input type="text" bind:value={$searchTerm} placeholder={placeholder} on:keydown={(e) => e.key === 'Enter' && handleSearch()}/>
   <a href={`${base}/cards/${$searchTerm}`}><img src={`${base}/images/search.png`} alt=""></a>
 
   {#if searchTypes.length > 1}
@@ -60,6 +65,12 @@
   @media (max-width: 500px) {
     input {
       width: 200px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    input {
+      width: 150px;
     }
   }
 
