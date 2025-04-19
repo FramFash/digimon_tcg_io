@@ -65,10 +65,10 @@
   <p>Loading...</p>
 {:else}
   <div class="set-details">
-    <div class="head"><a href="/sets/"><img src={`${base}/images/logo.png`} alt="Digimon Card Game"></a></div>
+    <div class="head"><a href={`${base}/sets`}><img src={`${base}/images/logo.png`} alt="Digimon Card Game"></a></div>
     <div class="set">
       <h1>[{set.set_id}] {set.name}</h1>
-      <img src={set.img} alt={set.name} on:error={(e) => {e.target.src='/images/logo.png'}}/>
+      <img src={set.img} alt={set.name} on:error={(e) => {e.target.src=`${base}/images/logo.png`}}/>
       <p>Release Date: {formatDateOnly(set.release_date)}</p>
     </div>
     <Search searchTypes={['name', 'card_no']} placeholder='Search Cards'/>

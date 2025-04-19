@@ -26,7 +26,7 @@
   </div>
   <div class="card-top">
     <button class={$activeStates.get(card.id) ? 'img-container-popup' : 'img-container'} on:click={() => {togglePopup(card.id)}}>
-      <img src={`https://images.digimoncard.io/images/cards/${card.id}.jpg`} alt={card.id} on:error={(e) => {e.target.src='/images/logo.png'}}/>
+      <img src={`https://images.digimoncard.io/images/cards/${card.id}.jpg`} alt={card.id} on:error={(e) => {e.target.src=`${base}/images/logo.png`}}/>
     </button>
   </div>
   <div class="card-bottom">
