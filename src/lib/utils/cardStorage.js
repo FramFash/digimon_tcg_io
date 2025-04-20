@@ -35,5 +35,21 @@ export const cardStorage = {
     const allCards = JSON.parse(localStorage.getItem(CARDS_DATA_KEY) || '{}');
     allCards[card.id] = card;
     localStorage.setItem(CARDS_DATA_KEY, JSON.stringify(allCards));
+  },
+  cleanupFromCookie: (cookieMap, listType = 'favorite') => {
+    const key = listType ==='favorite' ? FAVORITES_KEY : OWNED_KEY;
+    const currentStorage = JSON.parse(localStorage.getItem(key) || '{}');
+    let changed = false;
+
+    for (const id in currentStorage) {
+      if (!cookieMap.has(id)) {
+        delete currentStorage[id];
+        changed = true;
+      }
+    }
+
+    if (changed) {
+      localStorage.setItem(key, JSON.stringify(currentStorage));
+    }
   }
 };

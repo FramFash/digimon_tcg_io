@@ -28,6 +28,7 @@ const initialFavorites = getFavoritesCookie();
 export const favorites = writable(new Map(initialFavorites));
 
 if (browser) {
+  cardStorage.cleanupFromCookie(initialFavorites, 'favorite')
   favorites.subscribe($favorites => {
     setFavoriteCookie($favorites);
   });
@@ -69,10 +70,12 @@ function setOwnedCookie(map: Map<any, any>) {
 }
 
 
-export const owned = writable(new Map());
 const initialOwned = getOwnedCookie();
+export const owned = writable(new Map(initialOwned));
 
 if (browser) {
+  cardStorage.cleanupFromCookie(initialOwned, 'owned');
+
   owned.subscribe($owned => {
     setOwnedCookie($owned);
   });
