@@ -17,7 +17,8 @@ export async function fetchCardSearch(query) {
       throw new Error(`API request failed: ${response.status}`);
     }
 
-    return response.json
+
+    return response.json();
   });
 
   apiCache.set(cacheKey, data);

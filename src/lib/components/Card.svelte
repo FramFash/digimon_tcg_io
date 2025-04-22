@@ -98,12 +98,14 @@
   padding: 0;
   margin: 0;
   margin-top: 0.2rem;
-  transition: 0.5s;
+  transition: 0.25s;
+  width: 100%;
 
   & img {
     width: 100%;
     box-shadow: 0px 0px 3px 1px gray;
     border-radius: 15px;
+    transition: 0.25s;
   }
 
   & img:hover {
@@ -121,14 +123,13 @@
   border: none;
   padding: 0;
   margin: 0;
-  margin-top: 0.2rem;
-  transition: 0.5s;
+  transition: 0.25s;
 
   & img {
     width: 500px;
     border: solid 2px white;
     border-radius: 26px;
-    box-shadow: 0 0 60px 5px white;
+    transition: 0.25s;
   }
 }
 
@@ -190,7 +191,6 @@
 
   .img-container-popup img {
     width: 90%;
-    box-shadow: 0 0 30px 2px white;
   }
 }
 
@@ -210,7 +210,6 @@
 
   .img-container-popup img {
     width: 90%;
-    box-shadow: 0 0 30px 2px white;
   }
 }
 </style>
