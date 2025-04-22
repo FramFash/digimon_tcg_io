@@ -164,7 +164,7 @@
       gap: 0.3rem;
     }
     .each-card {
-      font-size: 0.6rem;
+      font-size: 0.5rem;
     }
   }
 </style>

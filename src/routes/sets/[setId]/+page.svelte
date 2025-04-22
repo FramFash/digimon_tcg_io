@@ -133,6 +133,10 @@
       grid-template-rows: repeat(auto-fill, minmax(50px, 240px));
       gap: 0.8rem;
     }
+
+    .set h1 {
+      font-size: 1.8rem;
+    }
   }
 
   @media (max-width: 400px) {

@@ -15,6 +15,7 @@
     background-color: #eeeeee;
     background-image: radial-gradient(#f74545 2px, #eeeeee 2px);
     background-size: 44px 44px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
   }
 
   .header {

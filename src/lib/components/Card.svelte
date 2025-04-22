@@ -98,14 +98,12 @@
   padding: 0;
   margin: 0;
   margin-top: 0.2rem;
-  transition: 0.25s;
   width: 100%;
 
   & img {
     width: 100%;
     box-shadow: 0px 0px 3px 1px gray;
     border-radius: 15px;
-    transition: 0.25s;
   }
 
   & img:hover {
@@ -200,9 +198,7 @@
   }
 
   .card-bottom {
-    height: 40px;
     overflow-y: scroll;
-
     & p {
       font-size: 0.5rem;
     }
