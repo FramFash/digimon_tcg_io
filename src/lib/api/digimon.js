@@ -26,12 +26,14 @@ export async function fetchCardSearch(query) {
 }
 
 export async function fetchSet(setId) {
+  const splitArray = setId.split("-");
+  const searchId = splitArray[0] + splitArray[1];
   const cacheKey = `set-${setId}`;
   const cached = apiCache.get(cacheKey);
   if (cached) return cached;
 
   const data = await digimonRateLimiter(async () => {
-    const response = await fetch(`https://digimoncard.io/api-public/search.php?pack=${setId}`);
+    const response = await fetch(`https://digimoncard.io/api-public/search.php?n=${searchId}`);
     return response.json();
   });
 
