@@ -33,7 +33,7 @@ export async function fetchSet(setId) {
   if (cached) return cached;
 
   const data = await digimonRateLimiter(async () => {
-    const response = await fetch(`https://digimoncard.io/api-public/search.php?n=${searchId}`);
+    const response = await fetch(`https://digimoncard.io/api-public/search.php?n=${searchId}-`);
     return response.json();
   });
 
