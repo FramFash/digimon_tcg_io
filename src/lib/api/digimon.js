@@ -25,15 +25,29 @@ export async function fetchCardSearch(query) {
   return data;
 }
 
-export async function fetchSet(setId) {
+function generateSearchUrlSet(setId) {
   const splitArray = setId.split("-");
   const searchId = splitArray[0] + splitArray[1];
+
+  if (splitArray[0] === 'ST') {
+    const starter = splitArray[0] + splitArray[1];
+    const url = `https://digimoncard.io/api-public/search.php?n=${starter}-`;
+    return url;
+  } else {
+    const url = `https://digimoncard.io/api-public/search.php?pack=${setId}`;
+    return url;
+  }
+}
+
+export async function fetchSet(setId) {
   const cacheKey = `set-${setId}`;
   const cached = apiCache.get(cacheKey);
   if (cached) return cached;
 
+  const url = generateSearchUrlSet(setId);
+
   const data = await digimonRateLimiter(async () => {
-    const response = await fetch(`https://digimoncard.io/api-public/search.php?n=${searchId}-`);
+    const response = await fetch(url);
     return response.json();
   });
 
