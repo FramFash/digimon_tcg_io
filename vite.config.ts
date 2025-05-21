@@ -3,5 +3,11 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
 	base: process.env.BASE_PATH || '',
-	plugins: [sveltekit()]
+	plugins: [sveltekit()],
+	server: {
+	watch: {
+	usePolling: true
+	
+}
+}
 });
