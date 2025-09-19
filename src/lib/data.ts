@@ -176,6 +176,18 @@ export let sets: Set[] = [
     img: 'https://world.digimoncard.com/images/products/pack/ver22/img_pkg.png',
   },
   {
+    set_id: 'BT-23',
+    name: 'Hackers Slumber',
+    release_date: '2025-10-18',
+    img: 'https://world.digimoncard.com/images/products/pack/ver23/img_pkg.png',
+  },
+  {
+    set_id: 'BT-24',
+    name: 'Time Stranger',
+    release_date: '2026-01-23',
+    img: 'https://world.digimoncard.com/images/products/pack/ver24/img_pkg.png',
+  },
+  {
     set_id: 'LM-01',
     name: 'Digimon Ghost Game',
     release_date: '2023-07-22',
@@ -270,6 +282,12 @@ export let sets: Set[] = [
     name: 'Sinister Order',
     release_date: '2025-09-19',
     img: 'https://world.digimoncard.com/images/products/pack/ex-10/img_pkg.png',
+  },
+  {
+    set_id: 'EX-11',
+    name: 'Dawn of Liberator',
+    release_date: '2026-02-13',
+    img: 'https://world.digimoncard.com/images/products/pack/ex-11/img_pkg.png',
   },
   {
     set_id: 'ST-1',
